@@ -18,7 +18,7 @@ class TicketController extends Controller
     {
         $tickets = $this->ticketRepository->all();
         foreach($tickets as $ticket)
-            echo "Ticket's id is: " . $ticket->remote_id . ", the hall id is: " . $ticket->hall_id . ", the film id is: " . $ticket->film_id . " and the film name is: " . $ticket->film_name;
+            echo "Ticket's id is: " . $ticket->remote_id . ", the hall id is: " . $ticket->hall_id . ", the film id is: " . $ticket->film_id . " and the film title is: " . $ticket->film_title;
     }
 
     public function getTicketByFilmId(int $filmId)

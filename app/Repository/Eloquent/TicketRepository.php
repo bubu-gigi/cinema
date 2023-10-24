@@ -22,7 +22,7 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
     {
         return $this->model::all();
     }
-    public function getTicket(string|int $param): Ticket
+    public function getTicket(string|int $param): Ticket|null
     {
         if(is_numeric($param))
             return $this->model::where('film_id', $param)->first();
