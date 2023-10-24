@@ -36,6 +36,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Route::pattern('id', '[0-9]+');
         Route::pattern('title', '[A-Za-z0-9-]+');
-        Route::pattern('name', '[A-Za-z0-9]+');
+        Route::pattern('name', '[A-Za-z0-9-]+');
     }
 }
