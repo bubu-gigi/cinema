@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('vip_price')->nullable();
             $table->integer('percentage_increase')->nullable();
             $table->integer('film_id');
-            $table->integer('film_title')->nullable();
+            $table->string('film_title')->nullable();
             $table->integer('hall_id')->nullable();
             $table->integer('remote_id');
         });
