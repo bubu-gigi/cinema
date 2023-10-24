@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('release_date')->nullable();
             $table->integer('remote_id');
             $table->string('time')->nullable();
-            $table->integer('tickets')->nullable();
             $table->integer('pellicole')->nullable();
+            $table->float('daily_gain')->default(0)->nullable();
+            $table->float('tot_gain')->default(0)->nullable();
         });
     }
 

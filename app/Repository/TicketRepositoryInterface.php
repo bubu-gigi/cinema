@@ -12,5 +12,9 @@ interface TicketRepositoryInterface
 {
     public function all(): Collection;
     public function calculateCollection(Film $film): float;
-    public function getTicket(int $id): Ticket;
+    public function getTicket(string|int $param): Ticket|null;
+    public function insert(stdClass $attributes): void;
+    public function put(stdClass $attributes): void;
+    public function deleteTicket(string|int $param): bool|null;
+    public function changePrice(stdClass $attributes): void;
 }

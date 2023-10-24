@@ -10,8 +10,8 @@ use stdClass;
 interface HallRepositoryInterface
 {
     public function all(): Collection;
-    public function get(int $id): Hall;
-    public function delete(int $id): void;
+    public function getHall(string|int $param): Hall|null;
+    public function deleteHall(string|int $param): bool|null;
     public function insert(stdClass $attributes): void;
     public function put(stdClass $attributes): void;
     public function number(): int;

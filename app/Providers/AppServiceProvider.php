@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repository\BookingRepositoryInterface;
+use App\Repository\Eloquent\BookingRepository;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use App\Repository\BaseRepositoryInterface;
 use App\Repository\Eloquent\BaseRepository;
@@ -23,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FilmRepositoryInterface::class, FilmRepository::class);
         $this->app->bind(HallRepositoryInterface::class, HallRepository::class);
         $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
+        $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
     }
 
     /**
@@ -30,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Route::pattern('id', '[0-9]+');
+        Route::pattern('title', '[A-Za-z0-9-]+');
+        Route::pattern('name', '[A-Za-z0-9]+');
     }
 }

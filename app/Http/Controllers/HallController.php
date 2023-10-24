@@ -18,20 +18,36 @@ class HallController extends Controller
 
     public function show()
     {
-        $halls =  $this->hallRepository->all();
-        foreach( $halls as $hall )
+        $halls = $this->hallRepository->all();
+        foreach($halls as $hall)
             echo "Hall's name is: " . $hall->name . " and its id is: " . $hall->remote_id . "<br>";
     }
 
-    public function get(int $id)
+    public function getHallNameById(int $id)
     {
-        $hall = $this->hallRepository->get($id);
-        echo "Hall's name is: " . $hall->name . " and its id is: " . $hall->remote_id . "<br>";
+        $hall = $this->hallRepository->getHall($id);
+        if(!(is_null($hall)))
+            echo "Hall's name is: " . $hall->name;
+        else
+            echo "Hall doesn't exist";
+    }
+    public function getHallIdByName(string $name)
+    {
+        $hall = $this->hallRepository->getHall($name);
+        if(!(is_null($hall)))
+            echo "Hall's id is: " . $hall->remote_id;
+        else
+            echo "Hall doesn't exist";
     }
 
-    public function delete(int $id)
+    public function deleteHallById(int $id)
     {
-        if($this->hallRepository->delete($id))
+        if($this->hallRepository->deleteHall($id))
+            echo "Hall deleted successfully!";
+    }
+    public function deleteHallByName(string $name)
+    {
+        if($this->hallRepository->deleteHall($name))
             echo "Hall deleted successfully!";
     }
 

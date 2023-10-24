@@ -16,6 +16,6 @@ class ApiHelper
 
     public static function replaceString(string $string): string
     {
-        return preg_replace("/[-]*/"," ", $string);
+        return str_replace('-', ' ', $string);
     }
 }

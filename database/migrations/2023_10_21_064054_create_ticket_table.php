@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->float('price');
-            $table->integer('base_amount')->nullable();
-            $table->integer('initial_base_amount')->nullable();
-            $table->integer('vip_amount')->nullable();
-            $table->integer('initial_vip_amount')->nullable();
+            $table->float('vip_price')->nullable();
             $table->integer('percentage_increase')->nullable();
             $table->integer('film_id');
+            $table->integer('film_title')->nullable();
+            $table->integer('hall_id')->nullable();
             $table->integer('remote_id');
         });
     }
