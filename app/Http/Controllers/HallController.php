@@ -19,53 +19,51 @@ class HallController extends Controller
     public function show()
     {
         $halls = $this->hallRepository->all();
-        foreach($halls as $hall)
-            echo "Hall's name is: " . $hall->name . " and its id is: " . $hall->remote_id . "<br>";
+        if(is_null($halls))
+            return response()->json([
+                "code" => 404,
+                "message"=> "Empty table halls"
+            ], 404)->header('Content-Type', 'application/json');
+        return response($halls)->header("Content-Type", "application/json");
     }
 
-    public function getHallNameById(int $id)
+    public function getHall(int $id)
     {
         $hall = $this->hallRepository->getHall($id);
         if(!(is_null($hall)))
-            echo "Hall's name is: " . $hall->name;
+            return response($hall)->header("Content-Type", "application/json");
         else
-            echo "Hall doesn't exist";
+            return response()->json([
+                "code"=> 404,
+                "message"=> "Not a valid hall"
+            ], 404)->header('Content-Type', 'application/json');
     }
-    public function getHallIdByName(string $name)
-    {
-        $hall = $this->hallRepository->getHall($name);
-        if(!(is_null($hall)))
-            echo "Hall's id is: " . $hall->remote_id;
-        else
-            echo "Hall doesn't exist";
-    }
-
-    public function deleteHallById(int $id)
+    public function deleteHall(int $id)
     {
         if($this->hallRepository->deleteHall($id))
-            echo "Hall deleted successfully!";
+            return response()->json(["status"=> "completed"], 200)->header('Content-Type', 'application/json');
+        return response()->json([
+            "code"=> 404,
+            "message"=> "Not a valid hall"
+        ], 404)->header('Content-Type', 'application/json');
     }
-    public function deleteHallByName(string $name)
-    {
-        if($this->hallRepository->deleteHall($name))
-            echo "Hall deleted successfully!";
-    }
-
     public function store(Request $request)
     {
         $obj = ApiHelper::toStdClass($request);
-        $this->hallRepository->insert($obj);
+        $hall = $this->hallRepository->insert($obj);
+        return response($hall, 201)->header('Content-Type', 'application/json');
     }
 
     public function update(Request $request)
     {
         $obj = ApiHelper::toStdClass($request);
-        $this->hallRepository->put($obj);
+        $hall = $this->hallRepository->put($obj);
+        return response($hall, 201)->header('Content-Type', 'application/json');
     }
 
-    public function getHallsNumber(): int
+    public function getHallsNumber()
     {
         $number = $this->hallRepository->number();
-        return $number;
+        return response()->json(["number" => $number] ,200)->header('Content-Type', 'application/json');
     }
 }

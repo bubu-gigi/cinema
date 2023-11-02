@@ -12,9 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        //$schedule->command("app:collection")->dailyAt("00:00")->appendOutputTo(__DIR__ . "/../../daily_sales.txt");
-        $schedule->command("app:collection")->dailyAt("00:00")->appendOutputTo(__DIR__ . "/../../daily_sales.txt");
-        $schedule->command("app:boot")->dailyAt("00:00");
+        $schedule->command("app:boot")->dailyAt('4:00');
     }
 
     /**

@@ -17,43 +17,56 @@ class TicketController extends Controller
     public function show()
     {
         $tickets = $this->ticketRepository->all();
-        foreach($tickets as $ticket)
-            echo "Ticket's id is: " . $ticket->remote_id . ", the hall id is: " . $ticket->hall_id . ", the film id is: " . $ticket->film_id . " and the film title is: " . $ticket->film_title;
+        return response($tickets, 200)->header('Content-Type', 'application/json');
     }
 
-    public function getTicketByFilmId(int $filmId)
+    public function getTicket(int $filmId)
     {
         $ticket = $this->ticketRepository->getTicket($filmId);
         if(is_null($ticket))
-            echo "Error";
+            return response()->json([
+                "code" => 404,
+                "message" => "Not ticket found"
+            ], 404)->header('Content-Type', 'application/json');
         else
-            echo "Ticket's price for the film is: " . $ticket->price;
+            return response($ticket, 200)->header('Content-Type', 'application/json');
     }
-
-    public function getTicketByNameId(int $filmId)
-    {
-        $ticket = $this->ticketRepository->getTicket($filmId);
-        if(is_null($ticket))
-            echo "Error";
-        else
-            echo "Ticket's price for the film is: " . $ticket->price;
-    }
-
     public function store(Request $request)
     {
         $obj = ApiHelper::toStdClass($request);
-        $this->ticketRepository->insert($obj);
+        $ticket = $this->ticketRepository->insert($obj);
+        return response($ticket, 201)->header('Content-Type', 'application/json');
     }
 
     public function update(Request $request)
     {
         $obj = ApiHelper::toStdClass($request);
-        $this->ticketRepository->put($obj);
+        $ticket = $this->ticketRepository->put($obj);
+        return response($ticket, 201)->header('Content-Type', 'application/json');
     }
 
     public function updatePrice(Request $request)
     {
         $obj = ApiHelper::toStdClass($request);
-        $this->ticketRepository->changePrice($obj);
+        $ticket = $this->ticketRepository->changePrice($obj);
+        if(is_null($ticket))
+            return response()->json([
+                "code" => 404,
+                "message" => "Not an existing ticket"
+            ], 404)->header('Content-Type', 'application/json');
+        return response($ticket, 201)->header('Content-Type', 'application/json');
+    }
+    public function deleteTicket(int $filmId)
+    {
+        $ticket = $this->ticketRepository->delete($filmId);
+        if(!(is_null($ticket)))
+            return response()->json([
+                "status" => "completed"
+            ])->header('Content-Type', 'application/json');
+        else
+            return response()->json([
+                "code" => 404,
+                "message" => "Not an existing ticket"
+            ], 404)->header('Content-Type', 'application/json');
     }
 }

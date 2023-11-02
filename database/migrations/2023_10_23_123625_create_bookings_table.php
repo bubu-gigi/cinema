@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('film_title');
-            $table->string('hall_name');
+            $table->string('film_id');
+            $table->string('hall_id');
             $table->boolean('is_vip');
+            $table->timestamps();
         });
     }
 

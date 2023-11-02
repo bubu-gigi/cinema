@@ -20,54 +20,45 @@ class HallRepository extends BaseRepository implements HallRepositoryInterface
     {
         return $this->model::all();
     }
-    public function getHall(string|int $param): Hall|null
+    public function getHall(int $id): Hall|null
     {
-        if(is_numeric($param))
-            return $this->model::where('remote_id', $param)->first();
-        else
-            return $this->model::where('name', ApiHelper::replaceString($param))->first();
+        return $this->model::where('id', $id)->first();
     }
-    public function deleteHall(string|int $param): bool|null
+    public function deleteHall(int $id): bool|null
     {
-        if(is_numeric($param))
-            return $this->model::where('remote_id', $param)->delete();
-        else
-            return $this->model::where('name', ApiHelper::replaceString($param))->delete();
+        return $this->model::where('id', $id)->delete();
     }
-    public function insert(stdClass $attributes): void
+    public function insert(stdClass $attributes): Hall
     {
         $this->model = new Hall();
         foreach($attributes as $key => $value)
-        {
-            if($key == "id")
-                {
-                    $this->model->remote_id = $value;
-                    continue;
-                }
-                $this->model->{$key} = $value;
-        }
+            $this->model->$key = $value;
         $this->model->save();
+        return $this->model;
     }
 
-    public function put(stdClass $attributes): void
+    public function put(stdClass $attributes): Hall
     {
         $this->model = new Hall();
-        $this->model = Hall::where('name', $attributes->name)->first();
-        if(is_null($this->model))
+        $flag = false;
+        if(isset($attributes->id))
+        {
+            $flag = true;
+            $this->model = Hall::where('id', $attributes->id)->first();
+        }
+        if(!($flag))
+        {
             $this->insert($attributes);
+            return $this->model;
+        }
         else
         {
             foreach($attributes as $key => $value)
-            {
-                if($key == "id")
-                {
-                    $this->model->remote_id = $value;
-                    continue;
-                }
-                $this->model->{$key} = $value;
-            }
+                $this->model->$key = $value;
             $this->model->save();
+            return $this->model;
         }
+
     }
 
     public function number(): int
